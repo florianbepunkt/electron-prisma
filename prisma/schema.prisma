@@ -6,7 +6,6 @@ generator client {
   engineType = "library"
   binaryTargets = ["native", "windows"]
   output = "../release/app/node_modules/@prisma/client"
-  // output = "../src/main/client"
 }
 
 datasource db {

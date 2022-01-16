@@ -40,9 +40,8 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-const isDevelopment = true; // TODO
-// const isDevelopment =
-//   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+const isDevelopment =
+  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDevelopment) {
   require('electron-debug')();
@@ -153,16 +152,21 @@ if (!isDev) {
       dbPath,
       fs.constants.COPYFILE_EXCL
     );
-    console.log('New database file created');
+    console.log(
+      `DB does not exist. Create new DB from ${path.join(
+        process.resourcesPath,
+        'prisma/dev.db'
+      )}`
+    );
   } catch (err) {
     if (
       err &&
       'code' in (err as { code: string }) &&
       (err as { code: string }).code !== 'EEXIST'
     ) {
-      console.error(`Failed creating sqlite file.`, err);
+      console.error(`DB creation faild. Reason:`, err);
     } else {
-      console.log('Database file detected');
+      throw err;
     }
   }
 }

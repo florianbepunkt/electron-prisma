@@ -1,7 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 const { PrismaClient } = require('@prisma/client');
 
-const appPath = ipcRenderer.sendSync('config:get-app-path');
 const dbPath = ipcRenderer.sendSync('config:get-prisma-db-path');
 const qePath = ipcRenderer.sendSync('config:get-prisma-qe-path');
 
@@ -19,10 +18,6 @@ const prisma = new PrismaClient({
     },
   },
 });
-
-console.log('QE PATH', qePath);
-console.log('APP PATH', appPath);
-console.log('DB PATH', dbPath);
 
 const api = {
   prisma: () => prisma,

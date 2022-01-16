@@ -9,6 +9,8 @@
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "package": "DEBUG_PROD=true && ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
     "postinstall": "node chore/post-install.js && ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts && opencollective-postinstall",
+    "prisma:init": "npx prisma migrate dev",
+    "prisma:migrate": "",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
@@ -52,11 +54,6 @@
       "!**/node_modules/prisma/libquery_engine*",
       "!**/node_modules/prisma/**/*.mjs"
     ],
-    "directories": {
-      "app": "release/app",
-      "buildResources": "assets",
-      "output": "release/build"
-    },
     "extraResources": [
       "./assets/**",
       "prisma/**/*",
@@ -64,6 +61,11 @@
       "node_modules/@prisma/engines/query*",
       "node_modules/@prisma/engines/libquery*"
     ],
+    "directories": {
+      "app": "release/app",
+      "buildResources": "assets",
+      "output": "release/build"
+    },
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
       "target": {
